@@ -1,0 +1,32 @@
+XMPP iQ3 API Feature List
+
+Authentication
+•	Must validate account before being able to make queries
+•	Can only control boxes associated with your account
+•	shoulkd multiple accoutns be able to control same box? I think yes
+•	Support for oauth2 – sign up with gmail / facebook / etc (but admin has to add box)
+
+
+Basic Info Commands
+•	Current program being viewed
+•	Library contents
+•	HDD usage
+•	Power Status
+•	FTA channels tuned
+
+
+Basic Control Commands
+•	Basic RCU controls
+•	Change to specific channel
+•	Play an event in Library
+•	Record / download event
+•	series link an event
+•	delete an event in library
+
+Social Media
+•	Now currently watching
+•	share planner contents
+•	link for other people to set a record event
+
+Admin
+•	Can create user accounts – maybe a self create but only admin can add boxes?
