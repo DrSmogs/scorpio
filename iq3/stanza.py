@@ -25,3 +25,31 @@ class current_viewing(ElementBase):
  interfaces = set(('current_viewing','current_channel'))
  sub_interfaces = set(['current_channel'])
 
+class system_information(ElementBase):
+ namespace = "foxtel:iq"
+ name = "system_information"
+ plugin_attrib = "system_information"
+ interfaces = set(('system_information'))
+ sub_interfaces = interfaces
+
+class get_volume(ElementBase):
+ namespace = "foxtel:iq"
+ name = "volume"
+ plugin_attrib = "volume"
+ interfaces = set(('volume'))
+ sub_interfaces = interfaces
+
+class set_volume(ElementBase):
+ namespace = "foxtel:iq"
+ name = "volume"
+ plugin_attrib = "volume"
+ interfaces = set(('volume','current_volume','mute'))
+ sub_interfaces = set(['current_volume','mute'])
+
+class set_message(ElementBase):
+ namespace = "foxtel:iq"
+ name = "popup_message"
+ plugin_attrib = "popup_message"
+ interfaces = set(('popup_message','popup_name','message','title','timeout'))
+ sub_interfaces = set(['popup_name','message','title','timeout'])
+
