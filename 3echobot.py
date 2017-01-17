@@ -160,16 +160,17 @@ class EchoBot(sleekxmpp.ClientXMPP):
         except IqTimeout:
          print("Timeout ")
 
-        try:
-         pmsg = self['iq3'].set_message(self.jid, self.to, self.Resource)
-         print()
-         print(pmsg.xml.items())
+# disable sending of pop up message as kills OSD on box
+#        try:
+#         pmsg = self['iq3'].set_message(self.jid, self.to, self.Resource)
+#         print()
+#         print(pmsg.xml.items())
 
 
-        except IqError as e:
-         print("Error " + str(e))
-        except IqTimeout:
-         print("Timeout ")
+#        except IqError as e:
+#         print("Error " + str(e))
+#        except IqTimeout:
+#         print("Timeout ")
 
 
 
