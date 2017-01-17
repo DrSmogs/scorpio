@@ -3,7 +3,7 @@ import logging
 from sleekxmpp.stanza import StreamFeatures, Iq
 from sleekxmpp.xmlstream import register_stanza_plugin, JID
 from sleekxmpp.plugins import BasePlugin
-from iq3 import stanza, current_programme, diagnostic_tuner, current_viewing
+from iq3 import stanza, current_programme, diagnostic_tuner, current_viewing, system_information, get_volume, set_volume, set_message
 from sleekxmpp.exceptions import IqError, IqTimeout
 from sleekxmpp.xmlstream.matcher import StanzaPath
 from sleekxmpp.xmlstream.handler import Callback
@@ -21,6 +21,10 @@ class iq3(BasePlugin):
         register_stanza_plugin(Iq, current_programme)
         register_stanza_plugin(Iq, diagnostic_tuner)
         register_stanza_plugin(Iq, current_viewing)
+        register_stanza_plugin(Iq, system_information)
+        register_stanza_plugin(Iq, get_volume)
+        register_stanza_plugin(Iq, set_volume)
+        register_stanza_plugin(Iq, set_message)
 
         self.sessions = {};
 
@@ -64,3 +68,94 @@ class iq3(BasePlugin):
         resp = iq.send(block=True)
 
         return resp
+
+    def set_viewing(self, jid=None, tjid=None, resource=None):
+        seqnr = "1234567"
+        iq = self.xmpp.Iq()
+        iq['from'] = jid + "/" + resource
+        iq['to'] = tjid + "/" + resource
+        iq['id'] = seqnr
+        iq['type'] = 'set'
+        iq['xml:lang'] = 'en'
+        iq['current_viewing']['current_channel'] = '123'
+        iq.enable('current_viewing')
+        self.sessions[seqnr] = {"from": iq['from'], "to": iq['to'], "seqnr": seqnr, "name": "current_viewing", "namespace": "foxtel:iq"};
+        resp = iq.send(block=True)
+
+        return resp
+
+     def get_viewing(self, jid=None, tjid=None, resource=None):
+        seqnr = "123"
+        iq = self.xmpp.Iq()
+        iq['from'] = jid + "/" + resource
+        iq['to'] = tjid + "/" + resource
+        iq['id'] = seqnr
+        iq['type'] = 'get'
+        iq['xml:lang'] = 'en'
+        iq.enable('current_viewing')
+        self.sessions[seqnr] = {"from": iq['from'], "to": iq['to'], "seqnr": seqnr, "name": "current_viewing", "namespace": "foxtel:iq"};
+        resp = iq.send(block=True)
+
+        return resp
+
+    def get_info(self, jid=None, tjid=None, resource=None):
+        seqnr = "1234567"
+        iq = self.xmpp.Iq()
+        iq['from'] = jid + "/" + resource
+        iq['to'] = tjid + "/" + resource
+        iq['id'] = seqnr
+        iq['type'] = 'get'
+        iq['xml:lang'] = 'en'
+        iq.enable('system_information')
+        self.sessions[seqnr] = {"from": iq['from'], "to": iq['to'], "seqnr": seqnr, "name": "system_information", "namespace": "foxtel:iq"};
+        resp = iq.send(block=True)
+
+        return resp
+
+    def get_volume(self, jid=None, tjid=None, resource=None):
+        seqnr = "1234567"
+        iq = self.xmpp.Iq()
+        iq['from'] = jid + "/" + resource
+        iq['to'] = tjid + "/" + resource
+        iq['id'] = seqnr
+        iq['type'] = 'get'
+        iq['xml:lang'] = 'en'
+        iq.enable('volume')
+        self.sessions[seqnr] = {"from": iq['from'], "to": iq['to'], "seqnr": seqnr, "name": "volume", "namespace": "foxtel:iq"};
+        resp = iq.send(block=True)
+
+        return resp
+
+    def set_volume(self, jid=None, tjid=None, resource=None):
+        seqnr = "12345678"
+        iq = self.xmpp.Iq()
+        iq['from'] = jid + "/" + resource
+        iq['to'] = tjid + "/" + resource
+        iq['id'] = seqnr
+        iq['type'] = 'set'
+        iq['xml:lang'] = 'en'
+        iq['volume']['mute'] = 'false'
+        iq.enable('volume')
+        self.sessions[seqnr] = {"from": iq['from'], "to": iq['to'], "seqnr": seqnr, "name": "volume", "namespace": "foxtel:iq"};
+        resp = iq.send(block=True)
+
+        return resp
+
+    def set_message(self, jid=None, tjid=None, resource=None):
+        seqnr = "123456789"
+        iq = self.xmpp.Iq()
+        iq['from'] = jid + "/" + resource
+        iq['to'] = tjid + "/" + resource
+        iq['id'] = seqnr
+        iq['type'] = 'set'
+        iq['xml:lang'] = 'en'
+        iq['popup_message']['popup_name'] = 'default_foxtel_popup'
+        iq['popup_message']['message'] = 'Test Message'
+        iq['popup_message']['title'] = 'This is a titleMCtitle'
+        iq['popup_message']['timeout'] = '5'
+        iq.enable('popup_message')
+        self.sessions[seqnr] = {"from": iq['from'], "to": iq['to'], "seqnr": seqnr, "name": "popup_message", "namespace": "foxtel:iq"};
+        resp = iq.send(block=True)
+
+        return resp
+
