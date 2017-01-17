@@ -115,6 +115,62 @@ class EchoBot(sleekxmpp.ClientXMPP):
         except IqTimeout:
          print("Timeout ")
 
+        try:
+         info = self['iq3'].get_info(self.jid, self.to, self.Resource)
+         print()
+         print(info.xml.items())
+
+
+        except IqError as e:
+         print("Error " + e)
+        except IqTimeout:
+         print("Timeout ")
+
+
+        try:
+         volume = self['iq3'].get_volume(self.jid, self.to, self.Resource)
+         print()
+         print(volume.xml.items())
+
+
+        except IqError as e:
+         print("Error " + e)
+        except IqTimeout:
+         print("Timeout ")
+
+        try:
+         volume = self['iq3'].set_volume(self.jid, self.to, self.Resource)
+         print()
+         print(volume.xml.items())
+
+
+        except IqError as e:
+         print("Error " + e)
+        except IqTimeout:
+         print("Timeout ")
+
+        try:
+         viewing = self['iq3'].get_viewing(self.jid, self.to, self.Resource)
+         print()
+         print(viewing.xml.items())
+
+
+        except IqError as e:
+         print("Error " + e)
+        except IqTimeout:
+         print("Timeout ")
+
+        try:
+         pmsg = self['iq3'].set_message(self.jid, self.to, self.Resource)
+         print()
+         print(pmsg.xml.items())
+
+
+        except IqError as e:
+         print("Error " + e)
+        except IqTimeout:
+         print("Timeout ")
+
 
 
     def message(self, msg):
