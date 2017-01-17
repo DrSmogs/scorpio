@@ -45,7 +45,7 @@ class current_viewing(ElementBase):
  namespace = "foxtel:iq"
  name = 'current_viewing'
  plugin_attrib = 'current_viewing'
- interfaces = set(('current_viewing'))
+ interfaces = set(('current_viewing','current_channel'))
  sub_interfaces = set(['current_channel'])
 
 
