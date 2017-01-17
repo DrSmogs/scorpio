@@ -88,7 +88,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
           print(current.xml.find('{foxtel:iq}current_programme/{foxtel:iq}programme/{foxtel:iq}event_name').text)
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
@@ -99,7 +99,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
@@ -111,7 +111,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
          print(channel.xml.items())
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
@@ -122,7 +122,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
@@ -134,7 +134,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
@@ -145,7 +145,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
@@ -156,7 +156,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
@@ -167,7 +167,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
 
 
         except IqError as e:
-         print("Error " + e)
+         print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
