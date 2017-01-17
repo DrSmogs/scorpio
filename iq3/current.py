@@ -84,7 +84,7 @@ class iq3(BasePlugin):
 
         return resp
 
-     def get_viewing(self, jid=None, tjid=None, resource=None):
+    def get_viewing(self, jid=None, tjid=None, resource=None):
         seqnr = "123"
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
