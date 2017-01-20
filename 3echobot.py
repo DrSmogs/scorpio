@@ -89,6 +89,9 @@ class EchoBot(sleekxmpp.ClientXMPP):
         if(args[0]=="set_chan"):
             self.setchan()
 
+        if(args[0]=="mute"):
+            self.mute(args[1])
+
         self.disconnect(wait=True)
         
 
@@ -123,6 +126,14 @@ class EchoBot(sleekxmpp.ClientXMPP):
         except IqTimeout:
          print("Timeout ")
 
+    def mute(self,mode):
+        try:
+            volume = self['iq3'].set_volume(self.jid, self.to, self.Resource,mode)
+            print(volume.xml.items())
+        except IqError as e:
+         print("Error " + str(e))
+        except IqTimeout:
+         print("Timeout ")`
 
 #        try:
           #current = self['iq3'].get_current(self.jid, self.to, self.Resource)
