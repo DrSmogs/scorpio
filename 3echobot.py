@@ -47,7 +47,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
     receives, along with a short thank you message.
     """
 
-    def __init__(self, jid, password, to, resource):
+    def __init__(self, jid, password, to, resource, args):
         sleekxmpp.ClientXMPP.__init__(self, jid, password)
         self.jid = jid
         self.to = to
@@ -83,82 +83,97 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.send_presence()
         self.get_roster()
 
-        try:
-          current = self['iq3'].get_current(self.jid, self.to, self.Resource)
-          print(current.xml.find('{foxtel:iq}current_programme/{foxtel:iq}programme/{foxtel:iq}event_name').text)
+        if(args[0]=="get_chan"):
+            self.chan()
 
-        except IqError as e:
-         print("Error " + str(e))
-        except IqTimeout:
-         print("Timeout ")
+        if(args[0]=="set_chan"):
+            self.setchan()
 
-        try:
-         diag = self['iq3'].get_diag(self.jid, self.to, self.Resource)
-         print()
-         print(diag.xml.items())
+        self.disconnect(wait=True)
         
 
+    def chan(self):
+        try: 
+            out = xmpp['iq3'].get_chan(opts.jid, opts.to, opts.resource)
+            print(out.xml.find('{foxtel:iq}current_programme/{foxtel:iq}programme/{foxtel:iq}event_name').text)
         except IqError as e:
          print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
-
+    def setchan(self):
 
         try:
-         channel = self['iq3'].set_viewing(self.jid, self.to, self.Resource)
-         print()
-         print(channel.xml.items())
+            out = self['iq3'].set_viewing(self.jid, self.to, self.Resource, args[1])
+            try: 
+                error = out.xml.find('{foxtel:iq}current_viewing/{foxtel:iq}error').text
+                if(error=="failed"):
+                    print("Change failed")
+            except:
+                print('not here')
+            try: 
+                response = out.xml.find('{foxtel:iq}current_viewing/{foxtel:iq}response').text
+                if(response=="OK"):
+                    print("Channel change success")
+            except:
+                print("oops")
 
         except IqError as e:
          print("Error " + str(e))
         except IqTimeout:
          print("Timeout ")
 
-        try:
-         info = self['iq3'].get_info(self.jid, self.to, self.Resource)
-         print()
-         print(info.xml.items())
+
+#        try:
+          #current = self['iq3'].get_current(self.jid, self.to, self.Resource)
+          #print(current.xml.find('{foxtel:iq}current_programme/{foxtel:iq}programme/{foxtel:iq}event_name').text)
+
+#        except IqError as e:
+#         print("Error " + str(e))
+#        except IqTimeout:
+#         print("Timeout ")
+
+#        try:
+         #diag = self['iq3'].get_diag(self.jid, self.to, self.Resource)
+#         print()
+         #print(diag.xml.items())
+        
+
+#        except IqError as e:
+#         print("Error " + str(e))
+#        except IqTimeout:
+#         print("Timeout ")
 
 
-        except IqError as e:
-         print("Error " + str(e))
-        except IqTimeout:
-         print("Timeout ")
+
+#        try:
+         #channel = self['iq3'].set_viewing(self.jid, self.to, self.Resource)
+#         print()
+         #print(channel.xml.items())
+
+#        except IqError as e:
+#         print("Error " + str(e))
+#        except IqTimeout:
+#         print("Timeout ")
+
+         #info = self['iq3'].get_info(self.jid, self.to, self.Resource)
+#         print()
+         #print(info.xml.items())
 
 
-        try:
-         volume = self['iq3'].get_volume(self.jid, self.to, self.Resource)
-         print()
-         print(volume.xml.items())
+         #volume = self['iq3'].get_volume(self.jid, self.to, self.Resource)
+#         print()
+         #print(volume.xml.items())
 
 
-        except IqError as e:
-         print("Error " + str(e))
-        except IqTimeout:
-         print("Timeout ")
-
-        try:
-         volume = self['iq3'].set_volume(self.jid, self.to, self.Resource)
-         print()
-         print(volume.xml.items())
+         #volume = self['iq3'].set_volume(self.jid, self.to, self.Resource)
+#         print()
+         #print(volume.xml.items())
 
 
-        except IqError as e:
-         print("Error " + str(e))
-        except IqTimeout:
-         print("Timeout ")
 
-        try:
-         viewing = self['iq3'].get_viewing(self.jid, self.to, self.Resource)
-         print()
-         print(viewing.xml.items())
-
-
-        except IqError as e:
-         print("Error " + str(e))
-        except IqTimeout:
-         print("Timeout ")
+         #viewing = self['iq3'].get_viewing(self.jid, self.to, self.Resource)
+#         print()
 
 # disable sending of pop up message as kills OSD on box
 #        try:
@@ -192,7 +207,6 @@ class EchoBot(sleekxmpp.ClientXMPP):
     def currentcallback(self, from_jid, result):
        print("we got data %s from %s", str(result), from_jid)
        self.disconnect()
-
 
 
 if __name__ == '__main__':
@@ -232,12 +246,14 @@ if __name__ == '__main__':
     # Setup the EchoBot and register plugins. Note that while plugins may
     # have interdependencies, the order in which you register them does
     # not matter.
-    xmpp = EchoBot(opts.jid, opts.password, opts.to, opts.resource)
+    xmpp = EchoBot(opts.jid, opts.password, opts.to, opts.resource, args)
     xmpp.register_plugin('xep_0030') # Service Discovery
     xmpp.register_plugin('xep_0004') # Data Forms
     xmpp.register_plugin('xep_0060') # PubSub
     xmpp.register_plugin('xep_0199') # XMPP Ping
     xmpp.register_plugin('iq3', module=iq3)
+
+
 
 
     # If you are connecting to Facebook and wish to use the
@@ -270,6 +286,16 @@ if __name__ == '__main__':
         # if xmpp.connect(('talk.google.com', 5222)):
         #     ...
         xmpp.process(block=False)
+
         print("Done")
     else:
         print("Unable to connect.")
+
+
+    
+
+
+
+
+
+
