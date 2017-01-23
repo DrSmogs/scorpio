@@ -133,7 +133,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
         except IqError as e:
          print("Error " + str(e))
         except IqTimeout:
-         print("Timeout ")`
+         print("Timeout ")
 
 #        try:
           #current = self['iq3'].get_current(self.jid, self.to, self.Resource)
