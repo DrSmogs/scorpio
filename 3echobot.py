@@ -84,7 +84,8 @@ class EchoBot(sleekxmpp.ClientXMPP):
         self.get_roster()
 
         if(args[0]=="get_chan"):
-            self.chan()
+            out = xmpp['iq3'].get_chan(opts.jid, opts.to, opts.resource)
+            print(out)
 
         if(args[0]=="set_chan"):
             self.setchan()
@@ -93,28 +94,28 @@ class EchoBot(sleekxmpp.ClientXMPP):
             self.mute(args[1])
 
         self.disconnect(wait=True)
-        
 
-    def chan(self):
-        try: 
-            out = xmpp['iq3'].get_chan(opts.jid, opts.to, opts.resource)
-            print(out.xml.find('{foxtel:iq}current_programme/{foxtel:iq}programme/{foxtel:iq}event_name').text)
-        except IqError as e:
-         print("Error " + str(e))
-        except IqTimeout:
-         print("Timeout ")
+
+    # def chan(self):
+    #     try:
+    #         out = xmpp['iq3'].get_chan(opts.jid, opts.to, opts.resource)
+    #         print(out.xml.find('{foxtel:iq}current_programme/{foxtel:iq}programme/{foxtel:iq}event_name').text)
+    #     except IqError as e:
+    #      print("Error " + str(e))
+    #     except IqTimeout:
+    #      print("Timeout ")
 
     def setchan(self):
 
         try:
             out = self['iq3'].set_viewing(self.jid, self.to, self.Resource, args[1])
-            try: 
+            try:
                 error = out.xml.find('{foxtel:iq}current_viewing/{foxtel:iq}error').text
                 if(error=="failed"):
                     print("Change failed")
             except:
                 print('not here')
-            try: 
+            try:
                 response = out.xml.find('{foxtel:iq}current_viewing/{foxtel:iq}response').text
                 if(response=="OK"):
                     print("Channel change success")
@@ -148,7 +149,7 @@ class EchoBot(sleekxmpp.ClientXMPP):
          #diag = self['iq3'].get_diag(self.jid, self.to, self.Resource)
 #         print()
          #print(diag.xml.items())
-        
+
 
 #        except IqError as e:
 #         print("Error " + str(e))
@@ -301,12 +302,3 @@ if __name__ == '__main__':
         print("Done")
     else:
         print("Unable to connect.")
-
-
-    
-
-
-
-
-
-
