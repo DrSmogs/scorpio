@@ -95,6 +95,7 @@ class iq3(BasePlugin):
         self.sessions[seqnr] = {"from": iq['from'], "to": iq['to'], "seqnr": seqnr, "name": "current_viewing", "namespace": "foxtel:iq"};
         resp = iq.send(block=True)
 
+
         return resp
 
     def get_info(self, jid=None, tjid=None, resource=None):
@@ -172,6 +173,9 @@ class iq3(BasePlugin):
         iq.enable('current_programme')
         resp = iq.send(block=True);
 
-        return resp
- 
+        try:
+            curchan=resp.xml.find('{foxtel:iq}current_programme/{foxtel:iq}programme/{foxtel:iq}event_name').text
+        except:
+            curchan="error"
 
+        return curchan
