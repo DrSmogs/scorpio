@@ -9,6 +9,7 @@ from sleekxmpp.xmlstream.matcher import StanzaPath
 from sleekxmpp.xmlstream.handler import Callback
 from sleekxmpp.xmlstream.matcher.id import MatcherId
 import xml.etree.ElementTree as ET
+import time
 
 
 class iq3(BasePlugin):
@@ -28,7 +29,7 @@ class iq3(BasePlugin):
         self.sessions = {};
 
     def get_current(self, jid=None, tjid=None, resource=None):
-        seqnr = "12345"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -41,7 +42,7 @@ class iq3(BasePlugin):
         return resp
 
     def get_diag(self, jid=None, tjid=None, resource=None):
-        seqnr = "12345"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -55,7 +56,7 @@ class iq3(BasePlugin):
         return resp
 
     def set_viewing(self, jid=None, tjid=None, resource=None):
-        seqnr = "12345"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -69,7 +70,7 @@ class iq3(BasePlugin):
         return resp
 
     def set_viewing(self, jid=None, tjid=None, resource=None, chan=None):
-        seqnr = "1234567"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -84,7 +85,7 @@ class iq3(BasePlugin):
         return resp
 
     def get_viewing(self, jid=None, tjid=None, resource=None):
-        seqnr = "123"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -99,7 +100,7 @@ class iq3(BasePlugin):
         return resp
 
     def get_info(self, jid=None, tjid=None, resource=None):
-        seqnr = "1234567"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -113,7 +114,7 @@ class iq3(BasePlugin):
         return resp
 
     def get_volume(self, jid=None, tjid=None, resource=None):
-        seqnr = "1234567"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -127,7 +128,7 @@ class iq3(BasePlugin):
         return resp
 
     def set_volume(self, jid=None, tjid=None, resource=None, mode=None):
-        seqnr = "12345678"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -145,7 +146,7 @@ class iq3(BasePlugin):
         return resp
 
     def set_message(self, jid=None, tjid=None, resource=None):
-        seqnr = "123456789"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
@@ -163,7 +164,7 @@ class iq3(BasePlugin):
         return resp
 
     def get_chan(self, jid=None, tjid=None, resource=None):
-        seqnr = "12345"
+        seqnr = jid + "-" + str(time.time())
         iq = self.xmpp.Iq()
         iq['from'] = jid + "/" + resource
         iq['to'] = tjid + "/" + resource
